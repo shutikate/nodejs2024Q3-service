@@ -44,7 +44,7 @@ export class ArtistService {
     const artist = this.artists.get(id);
 
     if (!artist) {
-      throw new NotFoundException(`Track not found`);
+      throw new NotFoundException(`Artist not found`);
     }
 
     this.artists.delete(id);
