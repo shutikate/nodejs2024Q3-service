@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { v4 } from 'uuid';
 import { User } from './types/types';
 import { CreateUserDto } from './dto/createUser.dto';
@@ -20,7 +24,13 @@ export class UserService {
   }
 
   findOne(id: string) {
-    return this.cleanPassword(this.users.get(id));
+    const user = this.users.get(id);
+
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+
+    return this.cleanPassword(user);
   }
 
   create(createUser: CreateUserDto) {
@@ -40,27 +50,38 @@ export class UserService {
 
   update(id: string, updatePassword: UpdatePasswordDto) {
     const currentUser = this.users.get(id);
+
     if (!currentUser) {
-      return;
+      throw new NotFoundException(`User not found`);
     }
+
+    if (currentUser.password !== updatePassword.oldPassword) {
+      throw new ForbiddenException(`Old password is incorrect`);
+    }
+
     const timestamp = Date.now();
+
     const updateUser = {
       ...currentUser,
       version: currentUser.version + 1,
       updatedAt: timestamp,
     };
 
-    currentUser.password === updatePassword.oldPassword
-      ? this.users.set(id, {
-          ...updateUser,
-          password: updatePassword.newPassword,
-        })
-      : null;
+    this.users.set(id, {
+      ...updateUser,
+      password: updatePassword.newPassword,
+    });
 
     return this.cleanPassword(updateUser);
   }
 
   delete(id: string) {
+    const user = this.users.get(id);
+
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+
     this.users.delete(id);
   }
 }

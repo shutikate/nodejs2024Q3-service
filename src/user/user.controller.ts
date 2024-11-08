@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   ParseUUIDPipe,
+  HttpCode,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
@@ -40,6 +41,7 @@ export class UserController {
   }
 
   @Delete(':uuid')
+  @HttpCode(204)
   remove(@Param('uuid', ParseUUIDPipe) uuid: string) {
     return this.userService.delete(uuid);
   }
