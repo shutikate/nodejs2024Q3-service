@@ -1,72 +1,62 @@
-# Home Library Service
+## Home Library Service
 
-## Prerequisites
+Users can create, read, update, delete data about Artists, Tracks and Albums, add them to Favorites in their own Home Library!
 
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+### Getting Started
 
-## Downloading
+#### Installation
 
+1. Clone this repository:
+
+```ruby
+git clone https://github.com/shutikate/nodejs2024Q3-service
 ```
-git clone {repository URL}
+
+2. Navigate to the project directory and switch to `develop` branch:
+
+```ruby
+git checkout develop
 ```
 
-## Installing NPM modules
+3. Install the dependencies:
 
-```
+```ruby
 npm install
 ```
 
-## Running application
+#### Configuration
 
+##### Running the server
+
+```ruby
+npm run start
 ```
-npm start
-```
+The server will be running on http://localhost:4000` (4000 as default).
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
+After starting the app you can open in your browser OpenAPI documentation by typing http://localhost:4000/doc/
 
-## Testing
+#### Testing
 
 After application running open new terminal and enter:
 
 To run all tests without authorization
 
-```
+```ruby
 npm run test
 ```
 
 To run only one of all test suites
 
-```
+```ruby
 npm run test -- <path to suite>
 ```
 
-To run all test with authorization
+#### Auto-fix and format
 
-```
-npm run test:auth
-```
-
-To run only specific test suite with authorization
-
-```
-npm run test:auth -- <path to suite>
-```
-
-### Auto-fix and format
-
-```
+```ruby
 npm run lint
 ```
 
-```
+```ruby
 npm run format
 ```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
