@@ -1,11 +1,25 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { v4 } from 'uuid';
+import { FavoritesService } from '../favorites/favorites.service';
+import { TrackService } from '../track/track.service';
 import { Album } from './types/types';
 import { CreateAlbumDto } from './dto/createAlbum.dto';
 import { UpdateAlbumDto } from './dto/updateAlbum.dto';
 
 @Injectable()
 export class AlbumService {
+  constructor(
+    @Inject(forwardRef(() => TrackService))
+    private trackService: TrackService,
+    @Inject(forwardRef(() => FavoritesService))
+    private favoriteService: FavoritesService,
+  ) {}
+
   private readonly albums: Map<string, Album> = new Map();
 
   findAll() {
@@ -19,6 +33,10 @@ export class AlbumService {
       throw new NotFoundException(`Album not found`);
     }
     return album;
+  }
+
+  getAlbumIfExist(id: string) {
+    return this.albums.get(id);
   }
 
   create(createAlbum: CreateAlbumDto) {
@@ -48,5 +66,19 @@ export class AlbumService {
     }
 
     this.albums.delete(id);
+
+    this.trackService.cleanAlbum(id);
+
+    this.favoriteService.removeAlbumIfExist(id);
+  }
+
+  cleanArtist(id: string) {
+    const albums = Array.from(this.albums.values());
+
+    albums.forEach((album) => {
+      if (album.artistId === id) {
+        album.artistId = null;
+      }
+    });
   }
 }
