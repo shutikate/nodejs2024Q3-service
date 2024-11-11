@@ -26,18 +26,24 @@ npm install
 
 #### Configuration
 
+4. Create .env file (based on .env.example): ./.env
+
 ##### Running the server
+
+5. Run server:
 
 ```ruby
 npm run start
 ```
 The server will be running on http://localhost:4000` (4000 as default).
 
+6. OpenAPI documentation:
+
 After starting the app you can open in your browser OpenAPI documentation by typing http://localhost:4000/doc/
 
 #### Testing
 
-After application running open new terminal and enter:
+7. After application running open new terminal and enter:
 
 To run all tests without authorization
 
