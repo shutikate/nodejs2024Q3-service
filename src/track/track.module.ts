@@ -1,10 +1,10 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TrackController } from './track.controller';
 import { TrackService } from './track.service';
-import { FavoritesModule } from '../favorites/favorites.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports: [forwardRef(() => FavoritesModule)],
+  imports: [PrismaModule],
   controllers: [TrackController],
   providers: [TrackService],
   exports: [TrackService],

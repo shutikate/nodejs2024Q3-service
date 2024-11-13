@@ -35,8 +35,8 @@ export class FavoritesService {
     return favorites;
   }
 
-  addTrack(uuid: string) {
-    const track = this.trackService.getTrackIfExist(uuid);
+  async addTrack(uuid: string) {
+    const track = await this.trackService.getTrackIfExist(uuid);
 
     if (!track) {
       throw new UnprocessableEntityException('Track does not exist');
