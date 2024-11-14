@@ -81,6 +81,7 @@ export class UserService {
 
     const updateUser = {
       ...currentUser,
+      password: updatePassword.newPassword,
       version: currentUser.version + 1,
       updatedAt: timestamp,
     };

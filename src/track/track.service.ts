@@ -22,11 +22,6 @@ export class TrackService {
     return track;
   }
 
-  async getTrackIfExist(id: string) {
-    const track = await this.prisma.track.findUnique({ where: { id } });
-    return track;
-  }
-
   async create(createTrack: CreateTrackDto) {
     const id = v4();
     const newTrack = { id, ...createTrack };
@@ -56,21 +51,5 @@ export class TrackService {
     await this.prisma.track.delete({ where: { id } });
 
     await this.prisma.favorite.deleteMany({ where: { trackId: id } });
-  }
-
-  async cleanArtist(id: string) {
-    const tracks = await this.prisma.track.findMany({
-      where: { artistId: id },
-    });
-
-    tracks.forEach((track) => (track.artistId = null));
-  }
-
-  async cleanAlbum(id: string) {
-    const tracks = await this.prisma.track.findMany({
-      where: { albumId: id },
-    });
-
-    tracks.forEach((track) => (track.albumId = null));
   }
 }
