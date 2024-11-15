@@ -1,12 +1,12 @@
-**/node_modules/
-**/dist
+node_modules
+dist
 
 .env
 
 .git
-npm-debug.log
+.gitignore
+*.log
 
-docker-compose.yml
+README.md
 
-prisma/migrations
-prisma/.env
+test

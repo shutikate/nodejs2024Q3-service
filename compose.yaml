@@ -1,13 +1,57 @@
-version: '3.8'
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:17
+    container_name: postgres-database
     restart: always
     env_file:
       - .env
     ports:
       - "5433:5432"
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
+      - postgres-logs:/logs:z
+    networks:
+      - bridge_network
+
+  prisma-migrate:
+    build:
+      context: .
+      target: prisma-migrate
+      dockerfile: Dockerfile
+    container_name: prisma-migrate
+    restart: "no"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - bridge_network
+
+  app:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    container_name: library-app
+    command: npm run start:dev
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - prisma-migrate
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - bridge_network
+
 volumes:
-    postgres:
+    postgres-data:
+    postgres-logs:
+
+networks:
+  bridge_network:
+    driver: bridge
