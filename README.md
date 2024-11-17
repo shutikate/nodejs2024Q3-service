@@ -1,6 +1,6 @@
 ## Home Library Service
 
-Users can create, read, update, delete data about Artists, Tracks and Albums, add them to Favorites in their own Home Library!
+Task: REST service: Containerization and Database (PostgreSQL) & ORM
 
 ### Getting Started
 
@@ -28,24 +28,33 @@ npm install
 
 4. Create .env file (based on .env.example): ./.env
 
-##### Running the server
+##### Running the docker
 
-5. Run server:
+5. Start Docker containers:
 
 ```ruby
-npm run start
+docker compose up --build
 ```
-The server will be running on http://localhost:4000` (4000 as default).
 
-6. OpenAPI documentation:
+##### After run of the application and the Docker images will be created:
 
-After starting the app you can open in your browser OpenAPI documentation by typing http://localhost:4000/doc/
+open new terminal:
+
+6. Check Docker containers is started:
+
+```ruby
+docker ps
+```
+
+7. OpenAPI documentation:
+
+You can open in your browser OpenAPI documentation by typing http://localhost:4000/doc/
 
 #### Testing
 
-7. After application running open new terminal and enter:
+8. Run all tests:
 
-To run all tests without authorization
+without authorization
 
 ```ruby
 npm run test
@@ -57,6 +66,12 @@ To run only one of all test suites
 npm run test -- <path to suite>
 ```
 
+9. Scan application image for security vulnerabilities:
+
+```ruby
+npm run docker:scan
+```
+
 #### Auto-fix and format
 
 ```ruby
@@ -66,3 +81,36 @@ npm run lint
 ```ruby
 npm run format
 ```
+
+#### Uninstall the application
+
+- stop containers
+
+```ruby
+docker compose down
+```
+
+- remove Docker app image
+
+```ruby
+docker image rm nodejs2024q3-service-library-app
+```
+
+- remove Docker postgres image
+
+```ruby
+docker image rm postgres
+```
+
+- remove Docker prisma-migrate image
+
+```ruby
+docker image rm nodejs2024q3-service-prisma-migrate
+```
+
+- remove Docker volumes
+
+```ruby
+docker volume rm nodejs2024q3-service_postgres-data
+```
+

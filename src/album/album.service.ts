@@ -48,16 +48,16 @@ export class AlbumService {
 
   async delete(id: string) {
     const album = await this.prisma.album.findUnique({ where: { id } });
-    const tracks = await this.prisma.track.findMany({
-      where: { albumId: id },
-    });
 
     if (!album) {
       throw new NotFoundException(`Album not found`);
     }
 
     await this.prisma.album.delete({ where: { id } });
-    tracks.forEach((track) => (track.albumId = null));
+    await this.prisma.track.updateMany({
+      where: { albumId: id },
+      data: { albumId: null },
+    });
     await this.prisma.favorite.deleteMany({ where: { albumId: id } });
   }
 }
