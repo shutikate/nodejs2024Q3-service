@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: shutikate-database
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - postgres-logs:/var/log/postgresql/logs
+    networks:
+      - bridge_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  prisma-migrate:
+    build:
+      context: .
+      target: prisma-migrate
+      dockerfile: Dockerfile
+    container_name: shutikate-prisma-migrate
+    restart: "no"
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+        restart: true
+    networks:
+      - bridge_network
+
+  library-app:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    container_name: shutikate-app
+    command: npm run start:dev
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      prisma-migrate:
+        condition: service_completed_successfully
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - bridge_network
+
+volumes:
+    postgres-data:
+    postgres-logs:
+
+networks:
+  bridge_network:
+    driver: bridge
