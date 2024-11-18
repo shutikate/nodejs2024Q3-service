@@ -2,6 +2,12 @@
 
 Task: REST service: Containerization and Database (PostgreSQL) & ORM
 
+### Prerequisites
+
+- Git - [Download & Install Git](https://git-scm.com/downloads).
+- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker - [Download & Install Docker Desktop](https://docs.docker.com/get-started/get-docker/) on Mac, Windows or Linux
+
 ### Getting Started
 
 #### Installation
@@ -33,12 +39,12 @@ npm install
 5. Start Docker containers:
 
 ```ruby
-docker compose up --build
+docker compose up
 ```
 
 ##### After run of the application and the Docker images will be created:
 
-open new terminal:
+**open new terminal**:
 
 6. Check Docker containers is started:
 

@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "docker:scan": "docker scout cves nodejs2024q3-service-app:latest && docker scout cves postgres:17"
+    "docker:scan": "docker scout cves nodejs2024q3-service-library-app:latest && docker scout cves postgres:17-alpine"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
