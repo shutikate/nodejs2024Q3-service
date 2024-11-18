@@ -9,6 +9,7 @@ services:
       - "${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - postgres-logs:/var/log/postgresql/logs
     networks:
       - bridge_network
     healthcheck:
@@ -57,6 +58,7 @@ services:
 
 volumes:
     postgres-data:
+    postgres-logs:
 
 networks:
   bridge_network:
