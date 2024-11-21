@@ -49,7 +49,5 @@ export class TrackService {
     }
 
     await this.prisma.track.delete({ where: { id } });
-
-    await this.prisma.favorite.deleteMany({ where: { trackId: id } });
   }
 }

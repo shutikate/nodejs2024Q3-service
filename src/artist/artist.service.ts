@@ -56,14 +56,5 @@ export class ArtistService {
     }
 
     await this.prisma.artist.delete({ where: { id } });
-    await this.prisma.album.updateMany({
-      where: { artistId: id },
-      data: { artistId: null },
-    });
-    await this.prisma.track.updateMany({
-      where: { artistId: id },
-      data: { artistId: null },
-    });
-    await this.prisma.favorite.deleteMany({ where: { artistId: id } });
   }
 }
