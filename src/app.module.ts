@@ -13,7 +13,9 @@ import { LoggingMiddleware } from './logging/loggingMiddleware';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UserModule,
     TrackModule,
     ArtistModule,

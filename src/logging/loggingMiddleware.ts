@@ -8,7 +8,7 @@ export class LoggingMiddleware implements NestMiddleware {
   constructor(private readonly loggingService: LoggingService) {}
 
   use(req: Request, res: Response, next: NextFunction) {
-    const { method, url, body, query } = req;
+    const { method, originalUrl, body, query } = req;
 
     res.on('finish', () => {
       const { statusCode } = res;
@@ -16,7 +16,17 @@ export class LoggingMiddleware implements NestMiddleware {
       const bodyToJSON = isNotEmptyObject(body) ? JSON.stringify(body) : '';
       const queryToJSON = isNotEmptyObject(query) ? JSON.stringify(query) : '';
 
-      const message = `${method} ${url} ${bodyToJSON} ${queryToJSON} ${statusCode}`;
+      const message = `${statusCode} ${method} ${originalUrl} ${bodyToJSON} ${queryToJSON}`;
+
+      if (statusCode >= 500) {
+        this.loggingService.error(message);
+        return;
+      }
+
+      if (statusCode >= 400) {
+        this.loggingService.warn(message);
+        return;
+      }
 
       this.loggingService.log(message);
     });
