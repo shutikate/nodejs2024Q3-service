@@ -4,9 +4,16 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as YAML from 'yamljs';
+import { LoggingService } from './logging/logging.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: false,
+    bufferLogs: true,
+  });
+  const logger = app.get(LoggingService);
+
+  app.useLogger(logger);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
