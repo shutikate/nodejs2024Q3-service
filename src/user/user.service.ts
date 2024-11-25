@@ -46,6 +46,18 @@ export class UserService {
     });
   }
 
+  async findByUsername(login: string) {
+    const user = await this.prisma.user.findFirst({
+      where: { login },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+
+    return user;
+  }
+
   async create(createUser: CreateUserDto) {
     const id = v4();
     const date = new Date();

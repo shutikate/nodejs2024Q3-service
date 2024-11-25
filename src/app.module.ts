@@ -10,6 +10,7 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { LoggingModule } from './logging/logging.module';
 import { LoggingMiddleware } from './logging/loggingMiddleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LoggingMiddleware } from './logging/loggingMiddleware';
     FavoritesModule,
     PrismaModule,
     LoggingModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
