@@ -1,6 +1,12 @@
 ## Home Library Service
 
-Users can create, read, update, delete data about Artists, Tracks and Albums, add them to Favorites in their own Home Library!
+Task: REST service: Containerization and Database (PostgreSQL) & ORM
+
+### Prerequisites
+
+- Git - [Download & Install Git](https://git-scm.com/downloads).
+- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker - [Download & Install Docker Desktop](https://docs.docker.com/get-started/get-docker/) on Mac, Windows or Linux
 
 ### Getting Started
 
@@ -15,7 +21,7 @@ git clone https://github.com/shutikate/nodejs2024Q3-service
 2. Navigate to the project directory and switch to `develop` branch:
 
 ```ruby
-git checkout develop
+git checkout dev-part3
 ```
 
 3. Install the dependencies:
@@ -28,33 +34,38 @@ npm install
 
 4. Create .env file (based on .env.example): ./.env
 
-##### Running the server
+##### Running the docker
 
-5. Run server:
+5. Start Docker containers:
 
 ```ruby
-npm run start
+docker compose up -d
 ```
-The server will be running on http://localhost:4000` (4000 as default).
 
-6. OpenAPI documentation:
+##### After run of the application and the Docker images will be created:
 
-After starting the app you can open in your browser OpenAPI documentation by typing http://localhost:4000/doc/
+6. Check Docker containers is started:
+
+```ruby
+docker ps
+```
+
+7. OpenAPI documentation:
+
+You can open in your browser OpenAPI documentation by typing http://localhost:4000/doc/
 
 #### Testing
 
-7. After application running open new terminal and enter:
-
-To run all tests without authorization
+8. Run all tests:
 
 ```ruby
-npm run test
+npm run test:auth
 ```
 
-To run only one of all test suites
+9. Scan application image for security vulnerabilities:
 
 ```ruby
-npm run test -- <path to suite>
+npm run docker:scan
 ```
 
 #### Auto-fix and format
@@ -66,3 +77,36 @@ npm run lint
 ```ruby
 npm run format
 ```
+
+#### Uninstall the application
+
+- stop containers
+
+```ruby
+docker compose down
+```
+
+- remove Docker app image
+
+```ruby
+docker image rm nodejs2024q3-service-library-app
+```
+
+- remove Docker postgres image
+
+```ruby
+docker image rm postgres
+```
+
+- remove Docker prisma-migrate image
+
+```ruby
+docker image rm nodejs2024q3-service-prisma-migrate
+```
+
+- remove Docker volumes
+
+```ruby
+docker volume rm nodejs2024q3-service_postgres-data
+```
+
