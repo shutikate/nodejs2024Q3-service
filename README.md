@@ -21,7 +21,7 @@ git clone https://github.com/shutikate/nodejs2024Q3-service
 2. Navigate to the project directory and switch to `develop` branch:
 
 ```ruby
-git checkout develop
+git checkout dev-part3
 ```
 
 3. Install the dependencies:
@@ -39,12 +39,10 @@ npm install
 5. Start Docker containers:
 
 ```ruby
-docker compose up
+docker compose up -d
 ```
 
 ##### After run of the application and the Docker images will be created:
-
-**open new terminal**:
 
 6. Check Docker containers is started:
 
@@ -60,16 +58,8 @@ You can open in your browser OpenAPI documentation by typing http://localhost:40
 
 8. Run all tests:
 
-without authorization
-
 ```ruby
-npm run test
-```
-
-To run only one of all test suites
-
-```ruby
-npm run test -- <path to suite>
+npm run test:auth
 ```
 
 9. Scan application image for security vulnerabilities:
